@@ -22,7 +22,7 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     List<TaskModel> taskList ;
-    private MainActivity mainActivity ;
+    private final MainActivity mainActivity ;
     DataBaseHandle myDataBase ;
 
     public TaskAdapter(DataBaseHandle myDataBase , MainActivity mainActivity  ){

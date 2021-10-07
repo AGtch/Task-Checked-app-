@@ -34,37 +34,37 @@ class TaskDataBaseContract implements BaseColumns {
         public static final String Task = "task";
         public static final String IsDone = "is_done"; //  Equal to status TaskModel.class
 
+        public static final int DATABASE_VERSION = 1;
+        public static final String DATABASE_NAME = "taskManagement.db";
+      ;
+        public static final String SQL_QUERY_CREATE_TABLE = " CREATE TABLE "+ tableName +
+                "("+ ID +" INTEGER PRIMARY KEY AUTOINCREMENT ,"
+                + Task + " TEXT,"
+                + IsDone + " INTEGER"+
+                ");" ;
+        public static final String SQL_QUERY_DELETE_TABLE = "DROP TABLE IF EXISTS "+ tableName;
+
 }
 
 
 
 public class DataBaseHandle extends SQLiteOpenHelper   {
 
-
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "taskManagement.db";
     public  SQLiteDatabase sqlDataBase ;
-    public  TaskModel taskModel ;
-    public static final String SQL_QUERY_CREATE_TABLE = " CREATE TABLE "+ tableName +
-            "("+ ID +" INTEGER PRIMARY KEY AUTOINCREMENT ,"
-            + Task + " TEXT,"
-            + IsDone + " INTEGER"+
-            ");" ;
-    public static final String SQL_QUERY_DELETE_TABLE = "DROP TABLE IF EXISTS "+ tableName;
-
+    public  TaskModel taskModel;
     public DataBaseHandle(Context context) {
-        super(context, DATABASE_NAME , null , DATABASE_VERSION);
+        super(context, TaskDataBaseContract.DATABASE_NAME , null , TaskDataBaseContract.DATABASE_VERSION);
     }
 
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(SQL_QUERY_CREATE_TABLE);
+        sqLiteDatabase.execSQL(TaskDataBaseContract.SQL_QUERY_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(SQL_QUERY_DELETE_TABLE);
+        sqLiteDatabase.execSQL(TaskDataBaseContract.SQL_QUERY_DELETE_TABLE);
         onCreate(sqLiteDatabase);
     }
 

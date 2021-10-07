@@ -31,16 +31,24 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
     private DataBaseHandle toDoDataBase ;
     private List<TaskModel> taskModelList ;
     TaskAdapter adapter ;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         recyclerView_item = findViewById(R.id.Main_task_list_id);
         floatingActionButton_add_Task = findViewById(R.id.add_task_fab);
-        taskModelList = new ArrayList<>();
         toDoDataBase = new DataBaseHandle(MainActivity.this);
+        taskModelList = new ArrayList<>();
         adapter = new TaskAdapter( toDoDataBase ,MainActivity.this );
+
+        recyclerView_item.setHasFixedSize(true);
+        recyclerView_item.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_item.setAdapter(adapter);
+        displayItemsInRecyclerView();
 
         floatingActionButton_add_Task.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onDialogClose(DialogInterface dialogInterface) {
+        displayItemsInRecyclerView();
+        adapter.notifyDataSetChanged();
+    }
+    void displayItemsInRecyclerView(){
         taskModelList = toDoDataBase.getAllTask();
         Collections.reverse(taskModelList);
         adapter.setTaskList(taskModelList);
-        adapter.notifyDataSetChanged();
     }
 }

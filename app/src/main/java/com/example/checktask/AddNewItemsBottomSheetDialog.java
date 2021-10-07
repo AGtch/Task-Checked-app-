@@ -17,9 +17,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.util.Objects;
 
 public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
+
     EditText enter_Task_editText ;
     ImageButton submit_Task_ImageButton;
     DataBaseHandle myDataBase ;
+
+
+    public static AddNewItemsBottomSheetDialog newInstance(){
+        return new AddNewItemsBottomSheetDialog();
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -32,7 +39,7 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
         if (bundle != null) {
             isUpdate= true;
             String task = bundle.getString("task");
-            enter_Task_editText.setText(bundle.getString(task));
+            enter_Task_editText.setText(task);
         }
         final boolean finalIsUpdate = isUpdate;
         submit_Task_ImageButton.setOnClickListener(new View.OnClickListener() {
@@ -54,9 +61,7 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
 
     }
 
-    public static AddNewItemsBottomSheetDialog newInstance(){
-        return new AddNewItemsBottomSheetDialog();
-    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
