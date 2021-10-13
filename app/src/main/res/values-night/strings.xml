@@ -3,4 +3,6 @@
     <string name="todo">TODO</string>
     <string name="add_new_task">Add new task</string>
     <string name="your_task">your task</string>
+    <string name="submit">submit</string>
+    <string name="go">Go</string>
 </resources>

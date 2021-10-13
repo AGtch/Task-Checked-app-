@@ -9,16 +9,16 @@ public class TaskModel {
      * task is String which user input
      * status check if task is done or not
      */
-    private String tasks ;
+    private String task ;
     private int id ;
     private int status;
 
     public String getTasks() {
-        return tasks;
+        return task;
     }
 
-    public void setTasks(String tasks) {
-        this.tasks = tasks;
+    public void setTasks(String task) {
+        this.task = task;
     }
 
     public int getId() {
@@ -29,6 +29,10 @@ public class TaskModel {
         this.id = id;
     }
 
+    public int getStatus() {
+        return  status;
+    }
+
     /**
      * @param status should be 1 or 0 , 1 mean that the task is done.
      */
@@ -36,8 +40,4 @@ public class TaskModel {
         this.status = status;
     }
 
-
-    public int getStatus() {
-        return  status;
-    }
 }

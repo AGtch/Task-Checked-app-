@@ -1,6 +1,5 @@
-package com.example.checktask;
+package com.example.checktask.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,22 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.checktask.AddNewItemsBottomSheetDialog;
+import com.example.checktask.MainActivity;
 import com.example.checktask.Model.TaskModel;
+import com.example.checktask.R;
 import com.example.checktask.Utils.DataBaseHandle;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
-    List<TaskModel> taskList ;
+    private List<TaskModel> taskList ;
     private final MainActivity mainActivity ;
-    DataBaseHandle myDataBase ;
+    private DataBaseHandle myDataBase ;
 
     public TaskAdapter(DataBaseHandle myDataBase , MainActivity mainActivity  ){
             this.myDataBase = myDataBase;
@@ -39,6 +39,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Bind data from TaskMode class to checkBox ( View of RecyclerView )
+        myDataBase.openDatabase();
+
         final  TaskModel item = taskList.get(position);
         holder.checkBox.setText(item.getTasks());
         holder.checkBox.setChecked(toBoolean(item.getStatus()));
@@ -62,13 +64,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
 
-    @SuppressLint("NotifyDataSetChanged")
     public void setTaskList(List<TaskModel> taskList){
         this.taskList = taskList;
         notifyDataSetChanged() ;
     }
 
     public void deleteTask(int position){
+
         TaskModel itemToDelete = taskList.get(position);
         myDataBase.deleteTask(itemToDelete.getId());
         taskList.remove(position);
@@ -77,27 +79,29 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
 
     public void editItem(int position){
+
         TaskModel item = taskList.get(position);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("id" , item.getId());
-        bundle.putString("task" , item.getTasks());
-
-        AddNewItemsBottomSheetDialog task = new AddNewItemsBottomSheetDialog();
-        task.setArguments(bundle);
-        task.show(mainActivity.getSupportFragmentManager() , task.getTag());
-
+        bundle.putInt("id", item.getId());
+        bundle.putString("task", item.getTasks());
+        AddNewItemsBottomSheetDialog FragmentTask = new AddNewItemsBottomSheetDialog();
+        FragmentTask.setArguments(bundle);
+        FragmentTask.show(mainActivity.getSupportFragmentManager(), AddNewItemsBottomSheetDialog.TAG);
     }
 
     @Override
     public int getItemCount() {
         return taskList.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox checkBox ;
+        CardView cardView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            checkBox= itemView.findViewById(R.id.your_task);
+            checkBox = itemView.findViewById(R.id.your_task);
+            cardView = itemView.findViewById(R.id.cardview);
         }
     }
 }
