@@ -2,7 +2,6 @@ package com.example.checktask;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -19,27 +18,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnDialogCloseListner {
-    private DataBaseHandle toDoDataBase ;
+public class MainActivity extends AppCompatActivity implements OnDialogCloseListener {
+    private DataBaseHandle toDoDataBase;
 
-    private RecyclerView recyclerView_item ;
-    private FloatingActionButton  floatingActionButton_add_Task ;
-    private List<TaskModel> taskModelList ;
-    private TaskAdapter adapter ;
+    private List<TaskModel> taskModelList;
+    private TaskAdapter adapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        recyclerView_item = findViewById(R.id.Main_task_list_id);
-        floatingActionButton_add_Task = findViewById(R.id.add_task_fab);
+        RecyclerView recyclerView_item = findViewById(R.id.Main_task_list_id);
+        FloatingActionButton floatingActionButton_add_Task = findViewById(R.id.add_task_fab);
+
         toDoDataBase = new DataBaseHandle(this);
         toDoDataBase.openDatabase();
 
         taskModelList = new ArrayList<>();
-        adapter = new TaskAdapter( toDoDataBase ,MainActivity.this );
+        adapter = new TaskAdapter(toDoDataBase, MainActivity.this);
         recyclerView_item.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         taskModelList = toDoDataBase.getAllTasks();
         Collections.reverse(taskModelList);
         adapter.setTaskList(taskModelList);
-        Log.d("Taglist", taskModelList.toString());
-        floatingActionButton_add_Task.setOnClickListener(view -> AddNewItemsBottomSheetDialog.newInstance().show(getSupportFragmentManager() , AddNewItemsBottomSheetDialog.TAG));
 
+
+        floatingActionButton_add_Task.setOnClickListener(view -> AddNewItemsBottomSheetDialog.newInstance().show(getSupportFragmentManager(), AddNewItemsBottomSheetDialog.TAG));
 
 
     }

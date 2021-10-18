@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="To_do_tasks">To Do Tasks</string>
     <string name="add_new_task">Add new task</string>
-    <string name="todo">TODO</string>
     <string name="your_task">your task</string>
     <string name="go">Go</string>
+    <string name="todo">TODO</string>
 </resources>
