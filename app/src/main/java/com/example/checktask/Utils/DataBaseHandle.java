@@ -1,7 +1,6 @@
 package com.example.checktask.Utils;
 
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,7 +66,6 @@ public class DataBaseHandle extends SQLiteOpenHelper   {
     }
 
     // this method to show data from database on RecyclerView
-    @SuppressLint("Range")
     public List<TaskModel> getAllTasks(){
         List<TaskModel> taskList = new ArrayList<>();
         Cursor cursor = null;
