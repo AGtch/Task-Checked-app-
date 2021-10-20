@@ -1,4 +1,5 @@
 package com.example.checktask.itemTouch;
+
 public interface ItemTouchEvent {
-    void onItemClick(int position);
+    void onItemClick(int position , String task);
 }

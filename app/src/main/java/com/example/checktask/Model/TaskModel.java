@@ -1,4 +1,5 @@
 package com.example.checktask.Model;
+
 /**
  * @author Ali Ahmed Gomaa
  * @version 1.0
@@ -9,8 +10,8 @@ public class TaskModel {
      * task is String which user input
      * status check if task is done or not
      */
-    private String task ;
-    private int id ;
+    private String task;
+    private int id;
     private int status;
 
     public String getTasks() {
@@ -30,7 +31,7 @@ public class TaskModel {
     }
 
     public int getStatus() {
-        return  status;
+        return status;
     }
 
     /**

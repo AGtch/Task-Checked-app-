@@ -25,17 +25,18 @@ import java.util.Objects;
 public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
     public static String TAG = "AddNewItemsBottomSheetDialog";
 
-    private EditText enter_Task_editText ;
-    private DataBaseHandle myDataBase ;
+    private EditText enter_Task_editText;
+    private DataBaseHandle myDataBase;
 
 
-    public static AddNewItemsBottomSheetDialog newInstance(){
+    public static AddNewItemsBottomSheetDialog newInstance() {
         return new AddNewItemsBottomSheetDialog();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_new_task , container , false);
+        return inflater.inflate(R.layout.add_new_task, container, false);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -43,9 +44,9 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        enter_Task_editText =  view.findViewById(R.id.enter_task_input);
+        enter_Task_editText = view.findViewById(R.id.enter_task_input);
         ImageButton submit_Task_ImageButton = view.findViewById(R.id.submit_btn);
-        boolean isUpdate = false ;
+        boolean isUpdate = false;
         Bundle bundle = getArguments();
         if (bundle != null) {
             isUpdate = true;
@@ -80,7 +81,7 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.toString().trim().length() >0) {
+                if (s.toString().trim().length() > 0) {
                     submit_Task_ImageButton.setOnClickListener(view1 -> {
                         String taskString = Objects.requireNonNull(enter_Task_editText.getText()).toString();
                         if (finalIsUpdate) {
@@ -103,8 +104,8 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         Activity activity = getActivity();
-        if (activity instanceof OnDialogCloseListener){
-            ((OnDialogCloseListener)activity).onDialogClose(dialog);
+        if (activity instanceof OnDialogCloseListener) {
+            ((OnDialogCloseListener) activity).onDialogClose(dialog);
         }
     }
 }

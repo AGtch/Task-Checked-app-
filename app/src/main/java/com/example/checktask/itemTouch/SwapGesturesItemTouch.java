@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.checktask.Adapter.TaskAdapter;
 
 
-public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implements Operations{
+public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implements Operations {
 
     private final TaskAdapter adapter;
     public SwapGesturesItemTouch(TaskAdapter adapter) {
@@ -24,20 +24,23 @@ public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implem
 
 
     @Override
-    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction ) {
+    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         String message = "Do you want to delete this task ?";
         String title = "Good Job";
+
+
+
         final int position = viewHolder.getAdapterPosition();
-        if (direction == ItemTouchHelper.RIGHT){
-            delete( position ,  title ,  message);
-        }else{
+        if (direction == ItemTouchHelper.RIGHT) {
+            delete(position, title, message);
+        } else {
             adapter.editItem(position);
         }
     }
 
     //method to ask if he want to delete task when user swap to delete it
     @Override
-    public void delete(int position , String title , String message) {
+    public void delete(int position, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
         builder.setTitle(title);
         builder.setCancelable(false);
@@ -48,7 +51,4 @@ public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implem
         dialog.show();
 
     }
-
-
-
 }
