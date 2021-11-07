@@ -21,12 +21,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnDialogCloseListener , ItemTouchEvent {
-    private DataBaseHandle toDoDataBase;
-    static MainActivity mainActivity ;
-    private List<TaskModel> taskModelList;
+public class MainActivity extends AppCompatActivity implements OnDialogCloseListener, ItemTouchEvent {
+    static MainActivity mainActivity;
     TaskAdapter adapter;
-    public static MainActivity getInstance(){
+    private DataBaseHandle toDoDataBase;
+    private List<TaskModel> taskModelList;
+
+    public static MainActivity getInstance() {
         return mainActivity;
     }
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         toDoDataBase.openDatabase();
 
         taskModelList = new ArrayList<>();
-        adapter = new TaskAdapter(toDoDataBase, MainActivity.this ,  this);
+        adapter = new TaskAdapter(toDoDataBase, MainActivity.this, this);
         recyclerView_item.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new
@@ -74,14 +75,12 @@ public class MainActivity extends AppCompatActivity implements OnDialogCloseList
         adapter.notifyDataSetChanged();
     }
 
-    public  void deleteIt(int pos){
-        adapter.deleteTask(pos);
-    }
+
     @Override
     public void onItemClick(int position, String task) {
-            Intent intent = new Intent(MainActivity.this , DetailsTaskActivty.class);
-            intent.putExtra("position", position);
-            intent.putExtra("task", task);
-            startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, TaskDetailsActivity.class);
+        intent.putExtra("position", position);
+        intent.putExtra("task", task);
+        startActivity(intent);
     }
 }

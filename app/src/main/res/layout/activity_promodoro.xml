@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout_id"
+    tools:context=".PromodoroActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progressBarCircle"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="74dp"
+            android:background="@drawable/drawable_circle_green"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="100"
+            android:progressDrawable="@drawable/drawable_circle_red"
+            android:rotation="-90" />
+
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:text="@string/_00_00"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="60sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_fouc_id"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/progressBarCircle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="122dp"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:padding="6dp"
+            android:shadowDx="20"
+            android:shadowDy="20"
+            android:visibility="visible"
+            android:text="@string/start_to_focus"
+            app:icon="@drawable/icon_start" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_pause_fouc_id"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/progressBarCircle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="122dp"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:padding="6dp"
+            android:shadowDx="20"
+            android:shadowDy="20"
+            android:text="@string/pause"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_resume_fouc_id"
+
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/progressBarCircle"
+            android:layout_marginLeft="230dp"
+            android:layout_marginTop="122dp"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:padding="6dp"
+            android:shadowDx="20"
+            android:shadowDy="20"
+            android:text="@string/continue_string"
+
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_stop_fouc_id"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_below="@id/progressBarCircle"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="122dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:drawablePadding="16dp"
+            android:focusable="true"
+            android:padding="6dp"
+            android:shadowDx="20"
+            android:shadowDy="20"
+            android:text="@string/stop"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>
+

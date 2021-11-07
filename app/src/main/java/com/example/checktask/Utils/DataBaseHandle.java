@@ -90,6 +90,7 @@ public class DataBaseHandle extends SQLiteOpenHelper {
         }
         return taskList; // list of items in DataBase
     }
+
     // Statues of task (checked or not)
     public void updateStatus(int id, int status) {
 

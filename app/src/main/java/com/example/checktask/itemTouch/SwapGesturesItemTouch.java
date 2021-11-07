@@ -12,6 +12,7 @@ import com.example.checktask.Adapter.TaskAdapter;
 public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implements Operations {
 
     private final TaskAdapter adapter;
+
     public SwapGesturesItemTouch(TaskAdapter adapter) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.adapter = adapter;
@@ -27,7 +28,6 @@ public class SwapGesturesItemTouch extends ItemTouchHelper.SimpleCallback implem
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         String message = "Do you want to delete this task ?";
         String title = "Good Job";
-
 
 
         final int position = viewHolder.getAdapterPosition();

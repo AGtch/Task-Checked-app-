@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -27,17 +26,25 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> implements Operations {
 
+    static TaskAdapter adapter;
     private final MainActivity mainActivity;
     private final DataBaseHandle myDataBase;
+    private final ItemTouchEvent itemTouchEvent;
     boolean notDeletedIt = true; // if user want to delete task or not ,false to delete it
     private List<TaskModel> taskList;
-    private final ItemTouchEvent itemTouchEvent;
 
-    static TaskAdapter adapter ;
-    public TaskAdapter(DataBaseHandle myDataBase, MainActivity mainActivity , ItemTouchEvent itemTouchEvent) {
+    public TaskAdapter(DataBaseHandle myDataBase, MainActivity mainActivity, ItemTouchEvent itemTouchEvent) {
         this.myDataBase = myDataBase;
         this.mainActivity = mainActivity;
         this.itemTouchEvent = itemTouchEvent;
+    }
+
+    public static TaskAdapter newInstanceOfAdapter() {
+        return adapter;
+    }
+
+    public static TaskAdapter instance() {
+        return adapter;
     }
 
     @NonNull
@@ -45,7 +52,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_design, parent, false);
         adapter = this;
-        return new ViewHolder(view , itemTouchEvent);
+        return new ViewHolder(view, itemTouchEvent);
     }
 
     @Override
@@ -80,15 +87,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         return number != 0;
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
     public void setTaskList(List<TaskModel> taskList) {
         this.taskList = taskList;
         notifyDataSetChanged();
     }
 
+    // Method to show Bottom dialog to let user to change task in database and RecyclerView
+
     /**
-     * Method called After calling {@link Operations#delete(int position, String title, String message)}
+     * Method called After calling {@link Operations# delete(int position, String title, String message)}
      * to perform delete operation in RecyclerView and DataBase
      */
 
@@ -99,8 +107,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         taskList.remove(position);
         notifyItemRemoved(position);
     }
-
-    // Method to show Bottom dialog to let user to change task in database and RecyclerView
 
     /**
      * @param position is the position of item in recyclerView
@@ -122,9 +128,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         return taskList.size();
     }
 
-
-    /*
+    /**
      * method to ask if he want to delete task when user check task
+     * it display Alert dialog to ask user if he want to delete the task task of this {@param position}
      * Override it from interface Operations
      */
     @Override
@@ -143,32 +149,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         dialog.show();
     }
 
-
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CheckBox checkBox;
         CardView cardView;
         ItemTouchEvent itemTouchEvent;
 
-        public ViewHolder(@NonNull View itemView , ItemTouchEvent itemTouchEvent) {
+        public ViewHolder(@NonNull View itemView, ItemTouchEvent itemTouchEvent) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.your_task);
             cardView = itemView.findViewById(R.id.cardview);
             itemView.setOnClickListener(this);
-            this.itemTouchEvent = itemTouchEvent ;
+            this.itemTouchEvent = itemTouchEvent;
         }
 
         /**
          * Called when a view has been clicked.
+         *
          * @param v The view that was clicked.
          */
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext() , String.valueOf(getAdapterPosition()) , Toast.LENGTH_LONG).show();
-            itemTouchEvent.onItemClick(getAdapterPosition() , checkBox.getText().toString());
+            // Toast.makeText(v.getContext(), String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
+            itemTouchEvent.onItemClick(getAdapterPosition(), checkBox.getText().toString());
         }
-    }
-    public static TaskAdapter instance(){
-        return adapter;
     }
 }
