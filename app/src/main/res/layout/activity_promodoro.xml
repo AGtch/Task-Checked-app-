@@ -50,8 +50,8 @@
             android:padding="6dp"
             android:shadowDx="20"
             android:shadowDy="20"
-            android:visibility="visible"
             android:text="@string/start_to_focus"
+            android:visibility="visible"
             app:icon="@drawable/icon_start" />
 
         <com.google.android.material.button.MaterialButton

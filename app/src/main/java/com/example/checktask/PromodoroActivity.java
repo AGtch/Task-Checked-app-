@@ -1,6 +1,7 @@
 package com.example.checktask;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,9 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
 
-public class PromodoroActivity extends AppCompatActivity {
-    long timeCountInMilliSeconds = (25 * 60000); // millisecond = 25 second
-    int counter = 0;
+public class PromodoroActivity extends AppCompatActivity implements View.OnClickListener {
+    long timeCountInMilliSeconds; // millisecond = 25 second
     boolean timerIsWork = false;
     ProgressBar progressBar;
     TextView txTimerCounter;
@@ -26,66 +26,65 @@ public class PromodoroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promodoro);
+        definition();
+        buttonClickListener();
+        setTimer(timeCountInMilliSeconds);
+
+    }
+
+    // Define each component
+    public void definition() {
         progressBar = findViewById(R.id.progressBarCircle);
         txTimerCounter = findViewById(R.id.textViewTime);
 
         buttonToStartFocus = findViewById(R.id.btn_start_fouc_id);
         buttonToPauseFocus = findViewById(R.id.btn_pause_fouc_id);
         buttonToResumeFocus = findViewById(R.id.btn_resume_fouc_id);
-
         buttonToStopFocus = findViewById(R.id.btn_stop_fouc_id);
+    }
 
-        setTimer(timeCountInMilliSeconds);
-        buttonToStartFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    // Make Buttons Clickable
+    public void buttonClickListener() {
+        buttonToStartFocus.setOnClickListener(this);
+        buttonToPauseFocus.setOnClickListener(this);
+        buttonToResumeFocus.setOnClickListener(this);
+        buttonToStopFocus.setOnClickListener(this);
+    }
+
+    // which Button was Clicked
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_start_fouc_id:
                 startTimer();
-            }
-        });
-
-        buttonToPauseFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+            case R.id.btn_pause_fouc_id:
                 pauseTimer();
-            }
-        });
-
-        buttonToStopFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetTimer();
-            }
-        });
-
-        buttonToResumeFocus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+            case R.id.btn_resume_fouc_id:
                 resumeTimer();
-            }
-        });
+                break;
+            case R.id.btn_stop_fouc_id:
+                resetTimer();
+                break;
+        }
     }
 
     /**
-     * method to start and stop count down timer break
+     * method to initialize the values for count down timer work
      */
-    private void breakStartStop() {
-        timerIsWork = false;
-
-        // call to initialize the timer values
-        setTimer(timeCountInMilliSeconds);
-        // call to initialize the progress bar values
-        setProgressBarValues();
-        // call to start the count down timer
-        startCountDownTimer();
-
-
+    private void SetTimerValues(long initialValue) {
+        timeCountInMilliSeconds = (initialValue);
     }
 
-    // set textView to default Value
+
+    // set textView to default Value (25:00)
     public void setTimer(long startValueOfTimer) {
         txTimerCounter.setText(hmsTimeFormatter(startValueOfTimer));
     }
 
+    //  Continue from the last value of timer
     public void resumeTimer() {
         showPauseButton();
         startCountDownTimer();
@@ -95,9 +94,8 @@ public class PromodoroActivity extends AppCompatActivity {
      * method to reset count down timer
      */
     public void resetTimer() {
-        counter = 0;
         showStartButton();
-        workSetTimerValues();
+        SetTimerValues((25 * 60000));
         setProgressBarValues();
         txTimerCounter.setText(hmsTimeFormatter(timeCountInMilliSeconds));
         stopCountDownTimer();
@@ -122,21 +120,39 @@ public class PromodoroActivity extends AppCompatActivity {
     }
 
     /**
-     * Start Counter Down timer
+     * method to Start Counter Down timer
      */
     public void startTimer() {
         timerIsWork = true;
-        workSetTimerValues();
+        SetTimerValues((25 * 60000));
         setProgressBarValues();
         showPauseButton();
-        // call to start the count down timer
         startCountDownTimer();
+    }
+
+    /**
+     * Start break time 5 minutes
+     */
+    public void startBreak() {
+        SetTimerValues(30000);
+        setProgressBarValues();
+        startCountDownTimer();
+    }
+
+    public void dialogToAskBreak() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Good Job!");
+        builder.setCancelable(false);
+        builder.setMessage("Take a break for 5 second ?");
+        builder.setPositiveButton("Yes", (dialog, which) -> startBreak());
+        builder.setNegativeButton("Start work again", (dialog, which) -> startTimer());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void pauseTimer() {
         timerIsWork = false;
         showResetAndStopBtn();
-        // call to start the count down timer
         stopCountDownTimer();
     }
 
@@ -177,21 +193,15 @@ public class PromodoroActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 //The count check end of the task
-                counter++;
                 txTimerCounter.setText(hmsTimeFormatter(timeCountInMilliSeconds));
                 setProgressBarValues();
+                dialogToAskBreak();
             }
-
         }.start();
+
     }
 
 
-    /**
-     * method to initialize the values for count down timer work
-     */
-    private void workSetTimerValues() {
-        timeCountInMilliSeconds = (25 * 60000);
-    }
 
     /**
      * method to convert millisecond to time format
@@ -205,4 +215,6 @@ public class PromodoroActivity extends AppCompatActivity {
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
         return hms;
     }
+
+
 }
