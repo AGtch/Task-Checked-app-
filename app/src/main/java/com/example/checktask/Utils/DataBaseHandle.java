@@ -113,7 +113,7 @@ public class DataBaseHandle extends SQLiteOpenHelper {
      * And save variables from bad using or errors by calling
      */
     static class DataBaseContract implements BaseColumns {
-        private static final int VERSION = 1;
+        private static final int VERSION = 2;
         private static final String DATABASE_NAME = "taskManagementDataBase";
         private static final String TODO_TABLE = "todolistTable";
         private static final String ID = "id";

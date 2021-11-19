@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -25,7 +26,7 @@ import java.util.Objects;
 public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
     public static String TAG = "AddNewItemsBottomSheetDialog";
 
-    private EditText enter_Task_editText;
+    private EditText enter_Task_editText, inputTxtDescription, inputTxtDate, inputTxtTime;
     private DataBaseHandle myDataBase;
 
 
@@ -44,8 +45,13 @@ public class AddNewItemsBottomSheetDialog extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         enter_Task_editText = view.findViewById(R.id.enter_task_input);
-        ImageButton submit_Task_ImageButton = view.findViewById(R.id.submit_btn);
+        inputTxtDescription = view.findViewById(R.id.input_task_description);
+        inputTxtDate = view.findViewById(R.id.input_task_date);
+        inputTxtTime = view.findViewById(R.id.input_task_time);
+
+        Button submit_Task_ImageButton = view.findViewById(R.id.submit_btn);
         boolean isUpdate = false;
         Bundle bundle = getArguments();
         if (bundle != null) {
