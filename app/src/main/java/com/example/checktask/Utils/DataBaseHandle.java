@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.example.checktask.Model.TaskModel;
 
@@ -22,23 +23,32 @@ import java.util.List;
 
 public class DataBaseHandle extends SQLiteOpenHelper {
 
+    private static final String TAG = "sizeofList";
     private SQLiteDatabase db;
 
     public DataBaseHandle(Context context) {
-        super(context, DataBaseContract.DATABASE_NAME, null, DataBaseContract.VERSION);
+
+        super(context, DataBaseContract.DATABASE_NAME, null, 5);
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+
         db.execSQL(DataBaseContract.CREATE_TODO_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + DataBaseContract.TODO_TABLE);
-        // Create tables again
-        onCreate(db);
+        // If you need to add a column
+       db.execSQL("DETACH DATABASE "+DataBaseContract.DATABASE_NAME);
+       db.execSQL(DataBaseContract.DATABASE_ALTER_DATE );
+       db.execSQL(DataBaseContract.DATABASE_ALTER_DESCRIPTION );
+       db.execSQL(DataBaseContract.DATABASE_ALTER_TIME );
+
+
     }
 
     // Open DataBase to write in
@@ -51,6 +61,10 @@ public class DataBaseHandle extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DataBaseContract.TASK, task.getTasks());
         contentValues.put(DataBaseContract.STATUS, 0);
+        contentValues.put(DataBaseContract.DESCRIPTION, task.getDescription());
+        contentValues.put(DataBaseContract.DATE, task.getDate());
+        contentValues.put(DataBaseContract.TIME, task.getTime());
+
         db.insert(DataBaseContract.TODO_TABLE, null, contentValues);
         db.close();
     }
@@ -78,6 +92,11 @@ public class DataBaseHandle extends SQLiteOpenHelper {
                         task.setId(cursor.getInt(cursor.getColumnIndex(DataBaseContract.ID)));
                         task.setTasks(cursor.getString(cursor.getColumnIndex(DataBaseContract.TASK)));
                         task.setStatus(cursor.getInt(cursor.getColumnIndex(DataBaseContract.STATUS)));
+
+                        task.setDescription(cursor.getString(cursor.getColumnIndex(DataBaseContract.DESCRIPTION)));
+                        task.setDate(cursor.getString(cursor.getColumnIndex(DataBaseContract.DATE)));
+                        task.setTime(cursor.getString(cursor.getColumnIndex(DataBaseContract.TIME)));
+
                         taskList.add(task);
                     }
                     while (cursor.moveToNext());
@@ -88,6 +107,7 @@ public class DataBaseHandle extends SQLiteOpenHelper {
             assert cursor != null;
             cursor.close();
         }
+        Log.d(TAG, "getAllTasks: " + taskList.size());
         return taskList; // list of items in DataBase
     }
 
@@ -112,14 +132,34 @@ public class DataBaseHandle extends SQLiteOpenHelper {
     /* Inner class that defines the table contents
      * And save variables from bad using or errors by calling
      */
-    static class DataBaseContract implements BaseColumns {
-        private static final int VERSION = 2;
-        private static final String DATABASE_NAME = "taskManagementDataBase";
+    public static class DataBaseContract implements BaseColumns {
+        private static final String DATABASE_NAME = "dataBaseTodo";
         private static final String TODO_TABLE = "todolistTable";
         private static final String ID = "id";
         private static final String TASK = "task";
         private static final String STATUS = "status";
-        private static final String CREATE_TODO_TABLE = "CREATE TABLE " + TODO_TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TASK + " TEXT, "
+
+        private static final String DESCRIPTION = "description";
+        private static final String DATE = "date";
+        private static final String TIME = "time";
+        private static final String INSERT = "INSERT INTO " + DataBaseContract.TODO_TABLE +
+                "(" + DataBaseContract.DESCRIPTION + "," +
+                DataBaseContract.STATUS
+                + "," + DataBaseContract.DATE + "," +
+                DataBaseContract.TASK + "," +
+                DataBaseContract.TIME
+                +");";
+
+        private static final String DATABASE_ALTER_DATE =
+                "ALTER TABLE " + DataBaseContract.TODO_TABLE + " ADD COLUMN " + DataBaseContract.DATE + " TEXT;";
+        private static final String DATABASE_ALTER_DESCRIPTION =
+                "ALTER TABLE " + DataBaseContract.TODO_TABLE + " ADD COLUMN " + DataBaseContract.DESCRIPTION + " TEXT;";
+        private static final String DATABASE_ALTER_TIME =
+                "ALTER TABLE " + DataBaseContract.TODO_TABLE + " ADD COLUMN " + DataBaseContract.TIME + " TEXT;";
+        //private static final String insertNewValues = " INSERT INTO todolistTable(description,status,date,task,time) VALUES (NULL,NULL,NULL,NULL , NULL ) ";
+        private static final String CREATE_TODO_TABLE = "CREATE TABLE " + TODO_TABLE + "("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + TASK + " TEXT, "
                 + STATUS + " INTEGER)";
     }
 

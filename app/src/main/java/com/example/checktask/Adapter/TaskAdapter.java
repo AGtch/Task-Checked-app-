@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -63,6 +64,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         final TaskModel item = taskList.get(position);
         holder.checkBox.setText(item.getTasks());
         holder.checkBox.setChecked(toBoolean(item.getStatus()));
+        holder.txtViewShowDate.setText(item.getDate());
+
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -152,12 +155,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CheckBox checkBox;
         CardView cardView;
+        TextView txtViewShowDate ;
         ItemTouchEvent itemTouchEvent;
 
         public ViewHolder(@NonNull View itemView, ItemTouchEvent itemTouchEvent) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.your_task);
             cardView = itemView.findViewById(R.id.cardview);
+
+            txtViewShowDate = itemView.findViewById(R.id.txt_show_date);
+
             itemView.setOnClickListener(this);
             this.itemTouchEvent = itemTouchEvent;
         }
